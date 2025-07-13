@@ -1,0 +1,8 @@
+[user]
+	email = ja.rojas.dev@gmail.com
+	name = pullusdoctus
+[core]
+	sshCommand = ssh -i ~/.ssh/pullusdoctus
+	editor = nvim
+[init]
+	defaultBranch = main
