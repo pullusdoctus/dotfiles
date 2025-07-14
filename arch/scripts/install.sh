@@ -137,14 +137,32 @@ install_apps() {
 
 install_games() {
     echo -e "\033[34m=== Installing Games ===\033[0m"
-    echo "Installing Steam, PrismLauncher..."
-    if paru -S --needed --noconfirm steam prismlauncher; then
+    echo "Installing Steam, PrismLauncher, emulators..."
+    if paru -S --needed --noconfirm steam prismlauncher mesen2-git ares-emu pcsx2 sameboy; then
         echo -e "\033[32mGames installed successfully\033[0m"
     else
         echo -e "\033[31mFailed to install games\033[0m"
         exit 1
     fi
     echo ""
+}
+
+prompt_game_installation() {
+  while true; do:
+    echo "Do you want to install games on this machine? (y/n):"
+    read answer
+    answer=$(echo "$answer" | tr '[:upper]' '[:lower]')
+    if [[ "$answer" == "y" || "$answer" == "yes" ]]; then
+      install_games
+      break
+    elif [[ "$answer" == "n" || "$answer" == "no" ]]; then
+      echo "No games will be installed."
+      echo ""
+      break
+    else
+      echo "Make sure to answer with a valid input (y/n or yes/no)"
+    fi
+  done
 }
 
 kickstart_nvim() {
@@ -257,7 +275,7 @@ enable_multilib
 install_paru
 install_essentials
 install_apps
-install_games
+prompt_game_installation
 kickstart_nvim # TODO: rice and move to restore script
 setup_zsh # TODO: rice and move to restore script
 install_hyprland
