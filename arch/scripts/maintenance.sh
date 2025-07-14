@@ -1,22 +1,21 @@
 #!/bin/bash
-# 2025/03/31
 # arch_maintenance.sh - Automatic system maintenance script
 
 # update packages
-yay -Syu | tee /tmp/yay_syu_out.txt
-if grep -q "marginal trust" /tmp/yay_syu_out.txt; then
-	yay -Sy --needed archlinux-keyring
+paru -Syu | tee /tmp/paru_syu_out.txt
+if grep -q "marginal trust" /tmp/paru_syu_out.txt; then
+  paru -Sy --needed archlinux-keyring
 fi
-rm -f /tmp/yay_syu_out.txt
+rm -f /tmp/paru_syu_out.txt
 
 # clean pacman cache
 sudo ls /var/cache/pacman/pkg/ | wc -l  # cached packages
-du -sh /var/cache/pacman/pkg/ 					# space used
-yay -Sy --needed pacman-contrib
+du -sh /var/cache/pacman/pkg/           # space used
+paru -Sy --needed pacman-contrib
 sudo paccache -r
 
 # remove orphan packages
-yay -Qdtq | yay -Rns - 2>/dev/null
+paru -Qdtq | paru -Rns - 2>/dev/null
 
 # clean home cache
 rm -rf ~/.cache/
