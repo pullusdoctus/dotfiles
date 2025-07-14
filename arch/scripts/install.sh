@@ -7,123 +7,6 @@ set -e  # Exit on any error
 echo -e "\033[34m=== Arch Linux Installation Script ===\033[0m"
 echo ""
 
-mount_drives() {
-	echo -e "\033[34m=== Mounting Drives ===\033[0m"
-	# Define drive mappings
-	declare -A DRIVES=(
-	["/dev/sda1"]="$HOME/data"
-	["/dev/sdb1"]="$HOME/media"
-	["/dev/nvme0n1"]="$HOME/games"
-	)
-	# Create mount points and mount drives
-	for device in "${!DRIVES[@]}"; do
-		mount_point="${DRIVES[$device]}"
-		echo "Processing $device -> $mount_point"
-		# Check if device exists
-		if [ ! -b "$device" ]; then
-			echo -e "\033[33mWarning: Device $device not found, skipping...\033[0m"
-			continue
-		fi
-		# Create mount point if it doesn't exist
-		if [ ! -d "$mount_point" ]; then
-			echo "Creating mount point: $mount_point"
-			mkdir -p "$mount_point"
-			if [ $? -eq 0 ]; then
-				echo -e "\033[32mCreated mount point $mount_point\033[0m"
-			else
-				echo -e "\033[31mFailed to create mount point $mount_point\033[0m"
-				continue
-			fi
-		else
-			echo -e "\033[32mMount point $mount_point already exists\033[0m"
-		fi
-		# Check if already mounted
-		if mountpoint -q "$mount_point"; then
-			echo -e "\033[32m$mount_point is already mounted\033[0m"
-		else
-			# Mount the device
-			echo "Mounting $device to $mount_point"
-			sudo mount "$device" "$mount_point"
-			if [ $? -eq 0 ]; then
-				echo -e "\033[32mSuccessfully mounted $device to $mount_point\033[0m"
-			else
-				echo -e "\033[31mFailed to mount $device to $mount_point\033[0m"
-				continue
-			fi
-		fi
-		# Set proper ownership
-		echo "Setting ownership of $mount_point to $USER"
-		sudo chown "$USER:$USER" "$mount_point" 2>/dev/null || true
-		# Get UUID of the device for fstab entry
-		UUID=$(sudo blkid -s UUID -o value "$device")
-		if [ -z "$UUID" ]; then
-			echo -e "\033[33mWarning: Could not get UUID for $device, using device path instead\033[0m"
-			DEVICE_ID="$device"
-		else
-			DEVICE_ID="UUID=$UUID"
-			echo "Found UUID for $device: $UUID"
-		fi
-		# Get filesystem type
-		FSTYPE=$(sudo blkid -s TYPE -o value "$device")
-		if [ -z "$FSTYPE" ]; then
-			echo -e "\033[33mWarning: Could not detect filesystem type for $device, assuming ext4\033[0m"
-			FSTYPE="ext4"
-		else
-			echo "Detected filesystem type for $device: $FSTYPE"
-		fi
-		# Create fstab entry
-		FSTAB_ENTRY="$DEVICE_ID $mount_point $FSTYPE defaults,nofail 0 2"
-		# Check if entry already exists in fstab
-		if grep -q "$mount_point" /etc/fstab; then
-			echo -e "\033[33mEntry for $mount_point already exists in /etc/fstab\033[0m"
-			# Show existing entry
-			existing_entry=$(grep "$mount_point" /etc/fstab)
-			echo "Existing entry: $existing_entry"
-			# Ask if user wants to update it
-			read -p "Do you want to update this entry? (y/N): " -n 1 -r
-			echo
-			if [[ $REPLY =~ ^[Yy]$ ]]; then
-				# Backup fstab
-				sudo cp /etc/fstab "/etc/fstab.backup.$(date +%Y%m%d_%H%M%S)"
-				echo -e "\033[32mBacked up /etc/fstab\033[0m"
-				# Remove old entry and add new one
-				sudo sed -i "\|$mount_point|d" /etc/fstab
-				echo "$FSTAB_ENTRY" | sudo tee -a /etc/fstab > /dev/null
-				echo -e "\033[32mUpdated fstab entry for $mount_point\033[0m"
-			fi
-		else
-			# Backup fstab before making changes
-			sudo cp /etc/fstab "/etc/fstab.backup.$(date +%Y%m%d_%H%M%S)"
-			echo -e "\033[32mBacked up /etc/fstab\033[0m"
-			# Add entry to fstab
-			echo "$FSTAB_ENTRY" | sudo tee -a /etc/fstab > /dev/null
-			echo -e "\033[32mAdded fstab entry: $FSTAB_ENTRY\033[0m"
-		fi
-		echo ""
-	done
-	# Test fstab entries
-	echo "Testing fstab configuration..."
-	if sudo mount -a; then
-		echo -e "\033[32mAll fstab entries are valid\033[0m"
-	else
-		echo -e "\033[31mError: Some fstab entries may be invalid\033[0m"
-		echo -e "\033[33mPlease check /etc/fstab manually\033[0m"
-	fi
-	# Show current mounts
-	echo -e "\033[34mCurrent mount status:\033[0m"
-	for mount_point in "$HOME/data" "$HOME/media" "$HOME/games"; do
-		if mountpoint -q "$mount_point" 2>/dev/null; then
-			device=$(df "$mount_point" | awk 'NR==2 {print $1}')
-			usage=$(df -h "$mount_point" | awk 'NR==2 {print $5}')
-			echo -e "\033[32m✓ $mount_point is mounted ($device, $usage used)\033[0m"
-		else
-			echo -e "\033[31m✗ $mount_point is not mounted\033[0m"
-		fi
-	done
-	echo -e "\033[32mDrive setup completed\033[0m"
-	echo ""
-}
-
 config_dns() {
     echo -e "\033[34m=== Configuring DNS ===\033[0m"
     echo "Setting up DNS servers (1.1.1.1, 4.4.4.4, 8.8.8.8)..."
@@ -230,8 +113,8 @@ install_paru() {
 
 install_essentials() {
     echo -e "\033[34m=== Installing Essential Packages ===\033[0m"
-    echo "Installing neovim, git, ssh, zsh, 7zip, C/C++ & Python libraries, fastfetch, wl-clipboard, fonts, fcitx5..."
-    if paru -S --needed --noconfirm neovim git openssh zsh p7zip base-devel clang gdb cmake lldb valgrind python python-pip pyenv python-poetry fastfetch wl-clipboard nerd-fonts ttf-jetbrains-mono ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-ms-win11-auto fcitx5-im fcitx5-mozc fcitx5-rime; then
+    echo "Installing neovim, git, ssh, zsh, 7zip, ark, C/C++ & Python libraries, fastfetch, wl-clipboard, fonts, fcitx5, snapper..."
+    if paru -S --needed --noconfirm neovim git openssh zsh p7zip ark base-devel clang gdb cmake lldb valgrind python python-pip pyenv python-poetry fastfetch wl-clipboard nerd-fonts ttf-jetbrains-mono ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-ms-win11-auto fcitx5-im fcitx5-mozc fcitx5-rime snapper; then
         echo -e "\033[32mEssential packages installed successfully\033[0m"
     else
         echo -e "\033[31mFailed to install essential packages\033[0m"
@@ -242,8 +125,8 @@ install_essentials() {
 
 install_apps() {
     echo -e "\033[34m=== Installing Apps ===\033[0m"
-    echo "Installing Notion, Spotify, Discord, WhatsApp, Floorp, LibreOffice, Okular, Gimp, feh, VLC, QBittorrent..."
-    if paru -S --needed --noconfirm notion-app-electron spotify-launcher discord zapzap floorp-bin libreoffice-fresh okular gimp feh vlc qbittorrent; then
+    echo "Installing Notion, Obsidian, Spotify, Discord, WhatsApp, Telegram, Zen Browser, Chromium, LibreOffice, Okular, Gimp, feh, VLC, QBittorrent..."
+    if paru -S --needed --noconfirm notion-app-electron obsidian spotify-launcher discord zapzap telegram-desktop zen-browser-bin ungoogled-chromium libreoffice-fresh okular gimp feh vlc qbittorrent; then
         echo -e "\033[32mApps installed successfully\033[0m"
     else
         echo -e "\033[31mFailed to install apps\033[0m"
@@ -265,10 +148,10 @@ install_games() {
 }
 
 kickstart_nvim() {
-	echo -e "\033[34m=== Installing Kickstart Neovim ===\033[0m"
+	echo -e "\033[34m=== Kickstarting Neovim ===\033[0m"
 	local nvim_config_dir="$HOME/.config/nvim"
 	local backup_dir="$HOME/.config/nvim.backup.$(date +%Y%m%d_%H%M%S)"
-	echo "Installing Kickstart Neovim configuration..."
+	echo "Kickstarting Neovim configuration..."
 	# Check if Neovim is installed
 	if ! command -v nvim &> /dev/null; then
 		echo -e "\033[31mError: Neovim is not installed. Please install Neovim first.\033[0m"
@@ -306,7 +189,6 @@ kickstart_nvim() {
 
 setup_zsh() {
     echo -e "\033[34m=== Setting up ZSH with Oh-My-ZSH and Powerlevel10k ===\033[0m"
-    
     # Install Oh-My-ZSH
     echo "Installing Oh-My-ZSH..."
     if [ ! -d "$HOME/.oh-my-zsh" ]; then
@@ -320,7 +202,6 @@ setup_zsh() {
     else
         echo -e "\033[32mOh-My-ZSH is already installed\033[0m"
     fi
-    
     # Install Powerlevel10k theme
     echo "Installing Powerlevel10k theme..."
     if [ ! -d "$HOME/.oh-my-zsh/custom/themes/powerlevel10k" ]; then
@@ -334,17 +215,14 @@ setup_zsh() {
     else
         echo -e "\033[32mPowerlevel10k is already installed\033[0m"
     fi
-    
     # Configure .zshrc
     echo "Configuring .zshrc..."
     if [ -f "$HOME/.zshrc" ]; then
         cp "$HOME/.zshrc" "$HOME/.zshrc.backup.$(date +%Y%m%d_%H%M%S)"
         echo -e "\033[32mBacked up existing .zshrc\033[0m"
     fi
-    
     # Set Powerlevel10k as the theme
     sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="powerlevel10k\/powerlevel10k"/' "$HOME/.zshrc"
-    
     # Change default shell to zsh
     echo "Changing default shell to zsh..."
     if [ "$SHELL" != "/bin/zsh" ]; then
@@ -353,7 +231,6 @@ setup_zsh() {
     else
         echo -e "\033[32mZsh is already the default shell\033[0m"
     fi
-    
     echo -e "\033[32mZSH setup completed!\033[0m"
     echo "Run 'p10k configure' after restarting your terminal to configure Powerlevel10k"
     echo ""
@@ -375,15 +252,14 @@ install_hyprland() {
 echo "Starting Arch Linux installation setup..."
 echo ""
 
-#mount_drives
 config_dns
 enable_multilib
 install_paru
 install_essentials
 install_apps
 install_games
-kickstart_nvim
-setup_zsh
+kickstart_nvim # TODO: rice and move to restore script
+setup_zsh # TODO: rice and move to restore script
 install_hyprland
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
