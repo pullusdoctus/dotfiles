@@ -138,8 +138,8 @@ install_apps() {
 
 install_games() {
     echo -e "{$BLUE}=== Installing Games ==={$RESET}"
-    echo "Installing Steam, PrismLauncher, emulators..."
-    if paru -S --needed --noconfirm steam prismlauncher mesen2-git ares-emu pcsx2 sameboy; then
+    echo "Installing Steam, PrismLauncher, emulators, gamescope, mangohud, Bottles..."
+    if paru -S --needed --noconfirm steam prismlauncher mesen2-git ares-emu pcsx2 sameboy gamescope mangohud bottles; then
         echo -e "{$GREEN}Games installed successfully{$RESET}"
     else
         echo -e "{$RED}Failed to install games{$RESET}"
