@@ -102,8 +102,8 @@ install_paru() {
 
 install_essentials() {
   echo -e "{$BLUE}=== Installing Essential Packages ==={$RESET}"
-  echo "Installing neovim, git, ssh, zsh, 7zip, ark, C/C++ Python & Lua libraries, fastfetch, wl-clipboard, fonts, fcitx5, snapper..."
-  if paru -S --needed --noconfirm neovim git openssh zsh p7zip ark base-devel clang gdb cmake lldb valgrind python python-pip pyenv python-poetry stylua luarocks unzip wget go ruby ruby-gems php composer npm julia tree-sitter python-neovim fd fastfetch wl-clipboard nerd-fonts ttf-jetbrains-mono ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-ms-win11-auto fcitx5-im fcitx5-mozc fcitx5-rime snapper; then
+  echo "Installing neovim, git, ssh, zsh, 7zip, ark, C/C++, ASM, Python & Lua libraries; fastfetch, wl-clipboard, fonts, fcitx5, snapper..."
+  if paru -S --needed --noconfirm neovim git openssh zsh p7zip ark base-devel clang gdb cmake lldb valgrind nasm python python-pip pyenv python-poetry stylua luarocks unzip wget go ruby ruby-gems php composer npm julia tree-sitter python-neovim fd fastfetch wl-clipboard nerd-fonts ttf-jetbrains-mono ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-ms-win11-auto fcitx5-im fcitx5-mozc fcitx5-rime snapper; then
     echo -e "{$GREEN}Essential packages installed successfully{$RESET}"
   else
     echo -e "{$RED}Failed to install essential packages{$RESET}"
@@ -114,8 +114,8 @@ install_essentials() {
 
 install_apps() {
   echo -e "{$BLUE}=== Installing Apps ==={$RESET}"
-  echo "Installing Notion, Obsidian, Anki, Zotero, Spotify, Discord, WhatsApp, Telegram, Zen Browser, Chromium, LibreOffice, Okular, Gimp, feh, VLC, QBittorrent..."
-  if paru -S --needed --noconfirm notion-app-electron obsidian anki-bin zotero-bin spotify-launcher discord zapzap telegram-desktop zen-browser-bin ungoogled-chromium libreoffice-fresh okular gimp feh vlc qbittorrent; then
+  echo "Installing Notion, Obsidian, Anki, Zotero, Spotify, Discord, WhatsApp, Telegram, Zen Browser, Waterfox, Chromium, LibreOffice, Okular, Gimp, feh, VLC, QBittorrent..."
+  if paru -S --needed --noconfirm notion-app-electron obsidian anki-bin zotero-bin spotify-launcher discord zapzap telegram-desktop zen-browser-bin waterfox-bin ungoogled-chromium-bin libreoffice-fresh okular gimp feh vlc qbittorrent; then
     echo -e "{$GREEN}Apps installed successfully{$RESET}"
   else
     echo -e "{$RED}Failed to install apps{$RESET}"
