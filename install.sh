@@ -334,7 +334,7 @@ setup_zsh # TODO: rice and move to restore script
 if [ -f "./restore.sh" ]; then
   bash ./restore.sh
 else
-  echo -e "${RED}Warning: restore.sh not found${RESET}"
+  echo -e "${YELLOW}Warning: restore.sh not found${RESET}"
 fi
 
 echo -e "${GREEN}Installation completed successfully!${RESET}"
