@@ -294,8 +294,8 @@ setup_reflector() {
   echo -e "${BLUE}=== Setting up Reflector ===${RESET}"
   sudo mkdir -p /etc/xdg/reflector/
   sudo tee /etc/xdg/reflector/reflector.conf >/dev/null <<EOF
-  --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
-  EOF
+--latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+EOF
   if sudo systemctl enable reflector.timer; then
     echo -e "${GREEN}Reflector scheduled to update mirrors once a week.${RESET}"
   else
