@@ -49,8 +49,8 @@ autocmd('FileType', { -- X86 Assembly Indentation (NASM)
 
 -- Stopline
 opt.colorcolumn = ''
-autocmd('FileType', { -- C/C++ @ column 80
-  pattern = { 'c', 'cpp', 'h', 'hpp' },
+autocmd('FileType', { -- C/C++, HTML/CSS, Java/TypeScript @ column 80
+  pattern = { 'c', 'cpp', 'h', 'hpp', 'js', 'ts' },
   callback = function()
     lopt.colorcolumn = '80'
   end,
@@ -59,6 +59,12 @@ autocmd('FileType', { -- Python @ column 100
   pattern = 'python',
   callback = function()
     lopt.colorcolumn = '100'
+  end,
+})
+autocmd('FileType', { -- HTML/CSS @ column 120
+  pattern = { 'html', 'css' },
+  callback = function()
+    lopt.colorcolumn = '120'
   end,
 })
 
