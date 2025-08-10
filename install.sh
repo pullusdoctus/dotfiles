@@ -24,7 +24,7 @@ config_dns() {
   sudo nmcli connection modify "$active_conn" ipv4.ignore-auto-dns yes
   # reset connection
   sudo nmcli connection down "$active_conn"
-  sudo nmcli connection up "$active_conn"
+  sudo nmcli connection up "$active_conn" --ask
 
   if [ $? -eq 0 ]; then
     echo -e "${GREEN}DNS configuration applied successfully.${RESET}"
