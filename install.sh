@@ -225,7 +225,7 @@ prompt_wmde_installation() {
     # TODO: echo "3. KDE Plasma"
     # TODO: echo "4. GNOME"
     read -rp "Your choice: " choice
-    case "$choice" in:
+    case "$choice" in
       0)
         echo "Skipping WM/DE installation."
         break
