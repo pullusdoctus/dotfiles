@@ -1,0 +1,5 @@
+Host pd
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/pullusdoctus
+  IdentitiesOnly yes

@@ -102,8 +102,8 @@ install_paru() {
 
 install_essentials() {
   echo -e "${BLUE}=== Installing Essential Packages ===${RESET}"
-  echo "Installing neovim, git, ssh, zsh, 7zip, ark, C/C++, ASM, Python & Lua libraries; fastfetch, wl-clipboard, fonts, fcitx5, snapper, reflector..."
-  if paru -S --needed --noconfirm neovim git openssh zsh p7zip ark base-devel clang gdb cmake lldb valgrind nasm python python-pip pyenv python-poetry stylua luarocks unzip wget go ruby php composer npm julia tree-sitter python-neovim fd fastfetch wl-clipboard nerd-fonts ttf-jetbrains-mono ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-ms-win11-auto fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-im fcitx5-mozc fcitx5-rime fcitx5-hangul fcitx5-unikey snapper reflector; then
+  echo "Installing neovim, git, ssh, zsh, 7zip, dolphin, ark, C/C++, ASM, Python & Lua libraries; fastfetch, wl-clipboard, fonts, fcitx5, snapper, reflector..."
+  if paru -S --needed --noconfirm neovim git openssh zsh p7zip dolphin ark base-devel clang gdb cmake lldb valgrind nasm python python-pip pyenv python-poetry stylua luarocks unzip wget go ruby php composer npm julia tree-sitter python-neovim fd fastfetch wl-clipboard nerd-fonts ttf-jetbrains-mono ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-ms-win11-auto fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-im fcitx5-mozc fcitx5-rime fcitx5-hangul fcitx5-unikey snapper reflector; then
     echo -e "${GREEN}Essential packages installed successfully${RESET}"
   else
     echo -e "${RED}Failed to install essential packages${RESET}"
@@ -114,13 +114,18 @@ install_essentials() {
 
 install_apps() {
   echo -e "${BLUE}=== Installing Apps ===${RESET}"
-  echo "Installing Notion, Obsidian, Anki, Zotero, Spotify, Discord, WhatsApp, Telegram, Firefox, Waterfox, Chromium, LibreOffice, Okular, Gimp, timg, mpv, QBittorrent..."
-  if paru -S --needed --noconfirm notion-app-electron obsidian anki-bin zotero-bin spotify-launcher discord zapzap telegram-desktop firefox waterfox-bin ungoogled-chromium-bin libreoffice-fresh okular gimp timg mpv qbittorrent; then
+  echo "Installing Notion, Obsidian, Anki, Zotero, Spotify, Discord, WhatsApp, Telegram, Firefox, Waterfox, Chromium, LibreOffice, Okular, Gimp, nsxiv, timg, mpv, QBittorrent..."
+  if paru -S --needed --noconfirm notion-app-electron obsidian anki-bin zotero-bin spotify-launcher discord zapzap telegram-desktop firefox waterfox-bin ungoogled-chromium-bin libreoffice-fresh okular gimp nsxiv timg mpv qbittorrent; then
     echo -e "${GREEN}Apps installed successfully${RESET}"
   else
     echo -e "${RED}Failed to install apps${RESET}"
     exit 1
   fi
+  echo ""
+}
+
+setup_gamemode() {
+  echo -e "${MAGENTA}TODO: setup gamemode${RESET}"
   echo ""
 }
 
@@ -133,7 +138,7 @@ install_games() {
     echo -e "${RED}Failed to install games${RESET}"
     exit 1
   fi
-  # TODO: setup gamemode
+  setup_gamemode
   echo -e "${BLUE}=== Installing Bottles ===${RESET}"
   if flatpak install bottles; then
     echo -e "${GREEN}Bottles installed succesfully${RESET}"
@@ -144,20 +149,8 @@ install_games() {
   echo ""
 }
 
-install_hyprland() {
-  echo -e "${BLUE}=== Installing Hyprland Desktop Environment ===${RESET}"
-  echo "Installing Hyprland packages..."
-  if paru -S --needed --noconfirm hyprpaper hyprpicker pipewire wireplumber waybar nsxiv; then
-    echo -e "${GREEN}Hyprland packages installed successfully${RESET}"
-  else
-    echo -e "${RED}Failed to install Hyprland packages${RESET}"
-    exit 1
-  fi
-  echo ""
-}
-
 prompt_game_installation() {
-  while true; do:
+  while true; do
     echo "Do you want to install games on this machine? (y/n):"
     read answer
     answer=$(echo "$answer" | tr '[:upper]' '[:lower]')
@@ -167,11 +160,84 @@ prompt_game_installation() {
     elif [[ "$answer" == "n" || "$answer" == "no" ]]; then
       echo "No games will be installed."
       echo ""
-      install_hyprland
       break
     else
       echo "Make sure to answer with a valid input (y/n or yes/no)"
     fi
+  done
+}
+
+install_wm_common() {
+  if paru -S --needed --noconfirm mako brightnessctl grim slurp kitty pipewire wireplumber waybar wofi xorg-xwayland ly; then
+    echo -e "${RED}Common packages to every WM installed!${RESET}"
+  else
+    echo -e "${RED}Failed to install common packages${RESET}"
+    exit 1
+  fi
+  echo ""
+}
+
+setup_ly() {
+  echo -e "${BLUE}=== Setting up Ly Display Manager ===${RESET}"
+  if sudo systemctl enable ly.service; then
+    echo -e "${GREEN}Ly enabled to start on boot.${RESET}"
+  else
+    echo -e "${RED}Failed to enable Ly.${RESET}"
+    exit 1
+  fi
+  echo ""
+}
+
+install_sway() {
+  echo -e "${BLUE}=== Installing SwayWM === ${RESET}"
+  install_wm_common 
+  if paru -S --needed --noconfirm sway swaybg swayidle swaylock; then
+    echo -e "${GREEN}SwayWM packages installed succesfully${RESET}"
+  else
+    echo -e "${RED}Failed to install SwayWM pakcages${RESET}"
+    exit 1
+  fi
+  setup_ly 
+  echo ""
+}
+
+install_hyprland() {
+  echo -e "${BLUE}=== Installing Hyprland ===${RESET}"
+  install_wm_common 
+  if paru -S --needed --noconfirm hyprland hyprpaper hyprpicker hyprlock polkit-kde-agent qt5-wayland qt6-wayland uwsm wofi xdg-desktop-portal-hyprland; then
+    echo -e "${GREEN}Hyprland packages installed successfully${RESET}"
+  else
+    echo -e "${RED}Failed to install Hyprland packages${RESET}"
+    exit 1
+  fi
+  setup_ly
+  echo ""
+}
+
+prompt_wmde_installation() {
+  echo -e "${BLUE}=== Installing a Window Manager or Desktop Environment ===${RESET}"
+  while true; do
+    echo -e "${BOLD}Choose from the following options:${RESET}"
+    echo "0. Nothing"
+    echo "1. SwayWM"
+    # NOTE: maybe some others could be added in the future
+    # TODO: echo "2. Hyprland"
+    # TODO: echo "3. KDE Plasma"
+    # TODO: echo "4. GNOME"
+    read -rp "Your choice: " choice
+    case "$choice" in:
+      0)
+        echo "Skipping WM/DE installation."
+        break
+        ;;
+      1)
+        install_sway
+        break
+        ;;
+      *)
+        echo -e "${YELLOW}Invalid choice. Please enter a valid option${RESET}"
+      ;;
+    esac
   done
 }
 
@@ -219,9 +285,39 @@ setup_zsh() {
   echo ""
 }
 
+setup_snapper() {
+  echo -e "${MAGENTA}TODO: setup snapper${RESET}"
+  echo ""
+}
+
+setup_reflector() {
+  echo -e "${BLUE}=== Setting up Reflector ===${RESET}"
+  sudo mkdir -p /etc/xdg/reflector/
+  sudo tee /etc/xdg/reflector/reflector.conf >/dev/null <<EOF
+  --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+  EOF
+  if sudo systemctl enable reflector.timer; then
+    echo -e "${GREEN}Reflector scheduled to update mirrors once a week.${RESET}"
+  else
+    echo -e "${RED}Failed to schedule Reflector once a week.${RESET}"
+    exit 1
+  fi
+  sudo systemctl start reflector.timer
+  echo "Updating mirror list now..."
+  if sudo reflector --config /etc/xdg/reflector/reflector.conf; then
+    echo -e "${GREEN}Mirror list updated succesfully.${RESET}"
+  else
+    echo -e "${RED}Failed to update mirror list.${RESET}"
+    exit 1
+  fi
+  echo ""
+}
+
 # ===========================================================
 # main:
-echo "Starting Arch Linux installation setup..."
+echo -e "${BOLD}+-------------------------------------------+${RESET}"
+echo -e "${BOLD}| Starting Arch Linux installation setup... |${RESET}"
+echo -e "${BOLD}+-------------------------------------------+${RESET}"
 echo ""
 
 config_dns
@@ -230,6 +326,9 @@ install_paru
 install_essentials
 install_apps
 prompt_game_installation
+prompt_wmde_installation
+setup_snapper
+setup_reflector
 setup_zsh # TODO: rice and move to restore script
 
 if [ -f "./restore.sh" ]; then
@@ -237,13 +336,6 @@ if [ -f "./restore.sh" ]; then
 else
   echo -e "${RED}Warning: restore.sh not found${RESET}"
 fi
-
-echo ""
-echo -e "${BLUE}=== Configuration Summary ===${RESET}"
-echo "Desktop Environment: Hyprland"
-echo "Shell: ZSH with Oh-My-ZSH and Powerlevel10k"
-echo "AUR Helper: paru"
-echo ""
 
 echo -e "${GREEN}Installation completed successfully!${RESET}"
 echo "Please reboot and run 'p10k configure' to set up Powerlevel10k theme"
