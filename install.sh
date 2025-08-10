@@ -169,9 +169,9 @@ prompt_game_installation() {
 
 install_wm_common() {
   if paru -S --needed --noconfirm mako brightnessctl grim slurp kitty pipewire wireplumber waybar wofi xorg-xwayland ly; then
-    echo -e "${RED}Common packages to every WM installed!${RESET}"
+    echo -e "${GREEN}Common packages to every WM installed!${RESET}"
   else
-    echo -e "${RED}Failed to install common packages${RESET}"
+    echo -e "${RED}Failed to install common packages.${RESET}"
     exit 1
   fi
   echo ""
@@ -304,7 +304,7 @@ EOF
   fi
   sudo systemctl start reflector.timer
   echo "Updating mirror list now..."
-  if sudo reflector --config /etc/xdg/reflector/reflector.conf; then
+  if sudo reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist; then
     echo -e "${GREEN}Mirror list updated succesfully.${RESET}"
   else
     echo -e "${RED}Failed to update mirror list.${RESET}"
