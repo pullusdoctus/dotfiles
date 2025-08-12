@@ -102,8 +102,8 @@ install_paru() {
 
 install_essentials() {
   echo -e "${BLUE}=== Installing Essential Packages ===${RESET}"
-  echo "Installing neovim, git, ssh, zsh, 7zip, dolphin, ark, C/C++, ASM, Python & Lua libraries; fastfetch, wl-clipboard, fonts, fcitx5, snapper, reflector..."
-  if paru -S --needed --noconfirm neovim git openssh zsh p7zip dolphin ark base-devel clang gdb cmake lldb valgrind nasm python python-pip pyenv python-poetry stylua luarocks unzip wget go ruby php composer npm julia tree-sitter python-neovim fd fastfetch wl-clipboard nerd-fonts ttf-jetbrains-mono ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-ms-win11-auto fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-im fcitx5-mozc fcitx5-rime fcitx5-hangul fcitx5-unikey snapper reflector; then
+  echo "Installing neovim, git, ssh, zsh, 7zip, dolphin, ark, C/C++, ASM, Python & Lua libraries; manuals, fastfetch, wl-clipboard, fonts, fcitx5, snapper, reflector..."
+  if paru -S --needed --noconfirm neovim git openssh zsh p7zip dolphin ark base-devel clang gdb cmake lldb valgrind nasm python python-pip pyenv python-poetry stylua luarocks unzip wget go ruby php composer npm julia tree-sitter python-neovim fd man-db fastfetch wl-clipboard nerd-fonts ttf-jetbrains-mono ttf-hack otf-font-awesome ttf-arimo-nerd noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-ms-win11-auto fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-im fcitx5-mozc fcitx5-rime fcitx5-hangul fcitx5-unikey snapper reflector; then
     echo -e "${GREEN}Essential packages installed successfully${RESET}"
   else
     echo -e "${RED}Failed to install essential packages${RESET}"
@@ -168,7 +168,7 @@ prompt_game_installation() {
 }
 
 install_wm_common() {
-  if paru -S --needed --noconfirm mako brightnessctl grim slurp kitty pipewire wireplumber waybar wofi xorg-xwayland ly; then
+  if paru -S --needed --noconfirm mako inotify-tools brightnessctl grim slurp kitty pipewire wireplumber pavucontrol network-manager-applet waybar wofi xorg-xwayland xdg-desktop-portal-gtk xdg-desktop-portal-wlr polkit-kde-agent qt5-wayland qt6-wayland ly; then
     echo -e "${GREEN}Common packages to every WM installed!${RESET}"
   else
     echo -e "${RED}Failed to install common packages.${RESET}"
@@ -191,7 +191,7 @@ setup_ly() {
 install_sway() {
   echo -e "${BLUE}=== Installing SwayWM === ${RESET}"
   install_wm_common 
-  if paru -S --needed --noconfirm sway swaybg swayidle swaylock; then
+  if paru -S --needed --noconfirm sway swaybg swayidle swaylock sway-contrib; then
     echo -e "${GREEN}SwayWM packages installed succesfully${RESET}"
   else
     echo -e "${RED}Failed to install SwayWM pakcages${RESET}"
@@ -204,7 +204,7 @@ install_sway() {
 install_hyprland() {
   echo -e "${BLUE}=== Installing Hyprland ===${RESET}"
   install_wm_common 
-  if paru -S --needed --noconfirm hyprland hyprpaper hyprpicker hyprlock polkit-kde-agent qt5-wayland qt6-wayland uwsm wofi xdg-desktop-portal-hyprland; then
+  if paru -S --needed --noconfirm hyprland hyprpaper hyprpicker hyprlock uwsm wofi xdg-desktop-portal-hyprland; then
     echo -e "${GREEN}Hyprland packages installed successfully${RESET}"
   else
     echo -e "${RED}Failed to install Hyprland packages${RESET}"
