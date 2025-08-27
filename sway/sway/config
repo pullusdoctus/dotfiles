@@ -6,7 +6,6 @@
 # +--------------+
 
 exec "/usr/lib/polkit-kde-authentication-agent-1"
-exec nm-applet
 
 # +-----------+
 # | Variables |
@@ -28,7 +27,7 @@ set $filemanager dolphin
 # | Output (Monitors) |
 # +-------------------+
 
-output * bg ~/data/img/wp/see-you-space-cowboy.png fill
+output * bg ~/data/img/wp/cowboy-bebop-panels.jpg fill
 
 # Example configuration:
 #

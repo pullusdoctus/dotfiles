@@ -1,0 +1,122 @@
+{
+  // TODO: make this part of wofi
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
+    }
+  },
+  // TODO: make this part of wofi
+  "custom/power": {
+    "format" : "⏻ ",
+    "on-click": "exec ~/.config/waybar/scripts/power-menu.sh",
+    "tooltip": false,
+    //"menu": "on-click",
+    //"menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
+    //"menu-actions": {
+      //shutdown": "shutdown",
+      //"reboot": "reboot",
+      //"suspend": "systemctl suspend",
+      //"hibernate": "systemctl hibernate"
+    //}
+  },
+  // SWAY SPECIFIC
+  "sway/workspaces": {
+    "all-outputs": true,
+    "warp-on-scroll": true,
+    "enable-bar-scroll": false,
+    "format": "{icon}",
+    "format-icons": {}
+  },
+  "sway/scratchpad": {
+    "format": " {count}",
+    "show-empty": false,
+    "tooltip": true,
+    "tooltip-format": "{app}: {title}"
+  },
+  "sway/window": {
+    "format": "{app_id}",
+    "separate-outputs": true,
+    "icon": true
+  },
+  // UTILS
+  "clock": {
+    "format": "  {:%Y/%m/%d |   %I:%M %p}",
+    "tooltip": true,
+    "tooltip-format": "<tt>{calendar}</tt>"
+  },
+  "network": {
+    "format-wifi": " ",
+    "format-ethernet": " {essid}",
+    "format-disconnected": "  Disconnected",
+    "interval": 5,
+    "tooltip-format-wifi": "{essid} |  {bandwidthDownBytes} |  {bandwidthUpBytes}",
+    "on-click": "nm-connection-editor"
+  },
+  "bluetooth": {
+    "format": "",
+    "format-disabled": "󰂲",
+    "format-connected": "",
+    "tooltip-format": "Device: {device_alias}",
+    "on-click": "blueberry"
+  },
+  "pulseaudio": {
+    "format": "  {volume}%",
+    "format-muted": " M",
+    "tooltip-format": "{desc}",
+    "on-click": "pavucontrol"
+  },
+  "tray": {
+    "spacing": 10,
+  },
+  // HARDWARE
+  "disk": {
+    "interval": 60,
+    "format": "  {used}/{total}",
+    "tooltip-format": "{free}"
+  },
+  "cpu": {
+    "interval": 1,
+    "format": " {usage}%",
+    "tooltip-format": "{usage}%",
+    "on-click": "kitty htop"
+  },
+  "memory": {
+    "interval": 1,
+    "format": " {}%",
+    "tooltip-format": "{used}/{total} GiB",
+    "on-click": "kitty htop"
+  },
+  "battery": {
+    "interval": 1,
+    "states": {
+      "good": 80,
+      "warning": 30,
+      "critical": 20
+    },
+    "format": " {capacity}%",
+    "format-charging": " {capacity}%",
+    "format-discharging": " {capacity}%",
+    "format-critical": "  {capacity}% (Critical!)",
+    "format-charging-warning": " {capacity}%",
+    "format-charging-critical": " {capacity}%",
+    "format-discharging-critical": "  {capacity}% (Critical!)",
+    "tooltip-format": "{time} remaining",
+    "tooltip-format-charging": "{time} until full",
+    "tooltip-format-discharging": "{time} remaining",
+    "on-click": "swaymsg exec gnome-control-center power"
+  },
+  "temperature": {
+    "interval": 5,
+    "tooltip": false,
+    "thermal-zone": 2,
+    "critical-threshold": 70,
+    "format": " {temperatureC}°C",
+    "format-critical": " {temperatureC}°C (Critical!)"
+  },
+}
