@@ -144,7 +144,7 @@ restore_sway() {
     if [ -d "$SWAY_DIR" ]; then
       rm -rf "$SWAY_DIR"
     fi
-    if cp -r "$SWAY_BCKP_DIR/sway" "$SWAY_DIR"; then
+    if cp -r "$SWAY_BCKP_DIR" "$SWAY_DIR"; then
       echo -e "${GREEN}Done!${RESET}"
     else
       echo -e "${RED}Could not restore SwayWM config.${RESET}"
