@@ -233,7 +233,7 @@ install_sway() {
 install_hyprland() {
   echo -e "${BLUE}=== Installing Hyprland ===${RESET}"
   install_wm_common
-  if paru -S --needed --noconfirm hyprland hyprpaper hyprpicker hyprlock uwsm wofi xdg-desktop-portal-hyprland; then
+  if paru -S --needed --noconfirm hyprland hyprpaper hyprpicker hyprlock uwsm xdg-desktop-portal-hyprland; then
     echo -e "${GREEN}Hyprland packages installed successfully${RESET}"
   else
     echo -e "${RED}Failed to install Hyprland packages${RESET}"
