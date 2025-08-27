@@ -104,7 +104,7 @@ backup_sway() {
       rm -rf "$SWAY_BCKP_DIR"
     fi
     mkdir "$SWAY_BCKP_DIR"
-    if cp -r "$SWAY_DIR" .; then
+    if cp -r "$SWAY_DIR" ..; then
       echo -e "${GREEN}Done!${RESET}"
     else
       echo -e "${RED}SwayWM config could not be backed up.${RESET}"

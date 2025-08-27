@@ -25,5 +25,5 @@ bindsym {
   $mod+Ctrl+Alt+s exec grimshot --notify save area
 }
 
-# Change Language (Fcitx)
-#bindsym $alt+Space
+# Color picker
+bindsym $mod+Shift+p exec wl-color-picker clipboard

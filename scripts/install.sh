@@ -202,7 +202,7 @@ setup_fcitx() {
 install_sway() {
   echo -e "${BLUE}=== Installing SwayWM === ${RESET}"
   install_wm_common
-  if paru -S --needed --noconfirm sway swaybg swayidle swaylock sway-contrib; then
+  if paru -S --needed --noconfirm sway swaybg swayidle swaylock sway-contrib wl-color-picker; then
     echo -e "${GREEN}SwayWM packages installed succesfully${RESET}"
   else
     echo -e "${RED}Failed to install SwayWM pakcages${RESET}"

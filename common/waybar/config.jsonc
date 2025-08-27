@@ -1,6 +1,4 @@
 {
-  // === GENERAL ===
-
   // Position
   "layer": "top",
   "position": "bottom",
@@ -28,7 +26,6 @@
     "group/hardware",
     "keyboard-state",
   ],
-  // Quicklinks Group
   "group/hardware": {
     "orientation": "horizontal",
     "modules": [
