@@ -5,12 +5,16 @@ source "./colors.sh"
 SSH_DIR="$HOME/.ssh"
 NVIM_DIR="$HOME/.config/nvim"
 WP_DIR="$HOME/data/img/wp"
+SWAY_DIR="$HOME/.config/sway"
+WAYBAR_DIR="$HOME/.config/waybar"
 
 COMMON_BCKP_DIR="./common"
 SSH_BCKP_DIR="$COMMON_BCKP_DIR/ssh"
 GIT_BCKP_DIR="$COMMON_BCKP_DIR/git"
 NVIM_BCKP_DIR="$COMMON_BCKP_DIR/nvim"
 WP_BCKP_DIR="$COMMON_BCKP_DIR/wp"
+SWAY_BCKP_DIR="./sway"
+WAYBAR_BCKP_DIR="$COMMON_BCKP_DIR/waybar"
 
 mkdir -p "$COMMON_BCKP_DIR"
 
@@ -74,4 +78,51 @@ else
   echo -e "${YELLOW}No wallpapers directory was found.${RESET}"
 fi
 
+backup_waybar() {
+  echo "Backing up config files for Waybar..."
+  if [ -d $WAYBAR_DIR ]; then
+    if [ -d $WAYBAR_BCKP_DIR ]; then
+      rm -rf "$WAYBAR_BCKP_DIR"
+    fi
+    if cp -r "$WAYBAR_DIR" "$COMMON_BCKP_DIR"; then
+      echo -e "${GREEN}Done!${RESET}"
+    else
+      echo -e "${RED}Waybar config could not be backed up."
+      exit 1
+    fi
+  else
+    echo -e "${YELLOW}No Waybar config directory was found.${RESET}"
+  fi
+}
+
+backup_sway() {
+  echo "Backing up config files for SwayWM..."
+  if [ -d $SWAY_DIR ]; then
+    if [ -d $SWAY_BCKP_DIR ]; then
+      rm -rf "$SWAY_BCKP_DIR"
+    fi
+    if cp -r "$SWAY_DIR" .; then
+      echo -e "${GREEN}Done!${RESET}"
+    else
+      echo -e "${RED}SwayWM config could not be backed up.${RESET}"
+      exit 1
+    fi
+    backup_waybar
+  else
+    echo -e "${YELLOW}No SwayWM config directory was found.${RESET}"
+  fi
+}
+
+echo -e "${BLUE}Backing up DE/WM config...${RESET}"
+WM=$(fastfetch | grep -i "WM:" | awk '{print $2}')
+case $WM in
+  Sway)
+    backup_sway
+    ;;
+  # TODO: Hyprland
+  # TODO: KDE Plasma
+  *)
+    echo -e "${YELLOW}Unknown DE/WM detected: $WM${RESET}"
+    ;;
+esac
 echo -e "${GREEN}Backup finished!${RESET}"
