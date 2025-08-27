@@ -1,20 +1,7 @@
 #!/bin/bash
 
 source "./colors.sh"
-
-SSH_DIR="$HOME/.ssh"
-NVIM_DIR="$HOME/.config/nvim"
-WP_DIR="$HOME/data/img/wp"
-SWAY_DIR="$HOME/.config/sway"
-WAYBAR_DIR="$HOME/.config/waybar"
-
-COMMON_BCKP_DIR="./common"
-SSH_BCKP_DIR="$COMMON_BCKP_DIR/ssh"
-GIT_BCKP_DIR="$COMMON_BCKP_DIR/git"
-NVIM_BCKP_DIR="$COMMON_BCKP_DIR/nvim"
-WP_BCKP_DIR="$COMMON_BCKP_DIR/wp"
-SWAY_BCKP_DIR="./sway"
-SWAYBAR_BCKP_DIR="$SWAY_BCKP_DIR/waybar"
+source "./vars.sh"
 
 mkdir -p "$COMMON_BCKP_DIR"
 
@@ -78,11 +65,26 @@ else
   echo -e "${YELLOW}No wallpapers directory was found.${RESET}"
 fi
 
-backup_swaybar() {
+echo -e "${BLUE}Backing up Kitty config...${RESET}"
+if [ -d "$KITTY_DIR" ]; then
+  if [ -d "$KITTY_BCKP_DIR" ]; then
+    rm -rf "$KITTY_BCKP_DIR"
+  fi
+  if cp -r "$KITTY_DIR" "$COMMON_BCKP_DIR"; then
+    echo -e "${GREEN}Done!${RESET}"
+  else
+    echo -e "${RED}Could not back up Kitty config.${RESET}"
+    exit 1
+  fi
+else
+  echo -e "${YELLOW}No Kitty config found.${RESET}"
+fi
+
+backup_waybar() {
   echo "Backing up config files for Waybar..."
   if [ -d $WAYBAR_DIR ]; then
-    if [ -d $SWAYBAR_BCKP_DIR ]; then
-      rm -rf "$SWAYBAR_BCKP_DIR"
+    if [ -d $wa ]; then
+      rm -rf "$WAYBAR_BCKP_DIR"
     fi
     if cp -r "$WAYBAR_DIR" "$SWAY_BCKP_DIR"; then
       echo -e "${GREEN}Done!${RESET}"
@@ -108,7 +110,7 @@ backup_sway() {
       echo -e "${RED}SwayWM config could not be backed up.${RESET}"
       exit 1
     fi
-    backup_swaybar
+    backup_waybar
   else
     echo -e "${YELLOW}No SwayWM config directory was found.${RESET}"
   fi

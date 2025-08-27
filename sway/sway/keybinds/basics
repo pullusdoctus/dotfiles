@@ -24,3 +24,6 @@ bindsym {
   $mod+Ctrl+s exec grimshot --notify copy area
   $mod+Ctrl+Alt+s exec grimshot --notify save area
 }
+
+# Change Language (Fcitx)
+#bindsym $alt+Space

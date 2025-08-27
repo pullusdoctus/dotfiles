@@ -1,23 +1,7 @@
 #!/bin/bash
 
 source "./colors.sh"
-
-CONFIG_DIR="$HOME/.config"
-SSH_DIR="$HOME/.ssh"
-NVIM_DIR="$CONFIG_DIR/nvim"
-DATA_DIR="$HOME/data"
-IMG_DIR="$DATA_DIR/img"
-WP_DIR="$IMG_DIR/wp"
-SWAY_DIR="$HOME/.config/sway"
-WAYBAR_DIR="$HOME/.config/waybar"
-
-COMMON_BCKP_DIR="./common"
-SSH_BCKP_DIR="$COMMON_BCKP_DIR/ssh"
-GIT_BCKP_DIR="$COMMON_BCKP_DIR/git"
-NVIM_BCKP_DIR="$COMMON_BCKP_DIR/nvim"
-WP_BCKP_DIR="$COMMON_BCKP_DIR/wp"
-SWAY_BCKP_DIR="./sway/"
-SWAYBAR_BCKP_DIR="$SWAY_BCKP_DIR/waybar"
+source "./vars.sh"
 
 while true; do
   read -rp "Do you want to generate new SSH keys? (y/n): " ANSWER
@@ -107,13 +91,28 @@ else
   echo -e "${YELLOW}No wallpapers backup found.${RESET}"
 fi
 
-restore_swaybar() {
+echo -e "${BLUE}Restoring Kitty config...${RESET}"
+if [ -d "$KITTY_BCKP_DIR" ]; then
+  if [ -d "$KITTY_DIR" ]; then
+    rm -rf "$KITTY_DIR"
+  fi
+  if cp -r "$KITTY_BCKP_DIR" "$KITTY_DIR"; then
+    echo -e "${GREEN}Done!${RESET}"
+  else
+    echo -e "${RED}Could not restore Kitty config.${RESET}"
+    exit 1
+  fi
+else
+  echo -e "${YELLOW}No Kitty backup found.${RESET}"
+fi
+
+restore_waybar() {
   echo -e "${BLUE}Restoring Waybar config...${RESET}"
-  if [ -d "$SWAYBAR_BCKP_DIR" ]; then
+  if [ -d "$WAYBAR_BCKP_DIR" ]; then
     if [ -d "$WAYBAR_DIR" ]; then
       rm -rf "$WAYBAR_DIR"
     fi
-    if cp -r "$SWAYBAR_BCKP_DIR" "$WAYBAR_DIR"; then
+    if cp -r "$WAYBAR_BCKP_DIR" "$WAYBAR_DIR"; then
       echo -e "${GREEN}Done!${RESET}"
     else
       echo -e "${RED}Could not restore Waybar config.${RESET}"
@@ -136,7 +135,7 @@ restore_sway() {
       echo -e "${RED}Could not restore SwayWM config.${RESET}"
       exit 1
     fi
-    restore_swaybar
+    restore_waybar
   else
     echo -e "${YELLOW}No SwayWM backup found.${RESET}"
   fi

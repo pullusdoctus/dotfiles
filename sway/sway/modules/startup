@@ -5,6 +5,7 @@
 xwayland force
 exec --no-startup-id autotiling
 exec --no-startup-id waypaper --restore
+exec --no-startup-id fcitx5 -d
 exec "/usr/lib/polkit-kde-authentication-agent-1"
 
 # +------+

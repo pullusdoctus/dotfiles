@@ -71,6 +71,10 @@
     "tooltip-format": "{desc}",
     "on-click": "pavucontrol"
   },
+  "backlight": {
+    "format": " {percent}%",
+    "tooltip-format": "Brightness: {percent}%",
+  },
   "tray": {
     "spacing": 10,
   },

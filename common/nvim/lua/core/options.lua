@@ -80,6 +80,10 @@ opt.signcolumn = 'yes'
 opt.updatetime = 250
 opt.timeoutlen = 300
 
+-- Transparent Background
+vim.cmd 'highlight Normal guibg=none ctermbg=none'
+vim.cmd 'highlight NonText guibg=none ctermbg=none'
+
 -- Splits
 opt.splitright = true
 opt.splitbelow = true

@@ -11,9 +11,6 @@
   // Load Modules
   "include": ["~/.config/waybar/modules.json"],
   "modules-left": [
-    // "sway/mode",
-    // "custom/media",
-    // "wlr/taskbar",
     "tray",
     "sway/workspaces",
     // TODO: "hyprland/workspaces"
@@ -27,6 +24,7 @@
     "network",
     "bluetooth",
     "pulseaudio",
+    "backlight",
     "group/hardware",
     "keyboard-state",
   ],
