@@ -209,12 +209,10 @@ setup_ly() {
 
 setup_fcitx() {
   echo -e "${BLUE}=== Setting up fcitx Environment Variables ===${RESET}"
-  if [ export GTK_IM_MODULE=fcitx ] && [ export QT_IM_MODULE=fcitx ] && [ export XMODIFIERS=@im=fcitx ] ; then
-    echo -e "${GREEN}fcitx environment variables set.${RESET}"
-  else
-    echo -e "${RED}Failed to set fcitx environment variables.${RESET}"
-    exit 1
-  fi
+  export GTK_IM_MODULE=fcitx
+  export QT_IM_MODULE=fcitx
+  export XMODIFIERS=@im=fcitx
+  echo -e "${GREEN}fcitx environment variables set.${RESET}"
   echo ""
 }
 
