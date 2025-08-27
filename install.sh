@@ -294,7 +294,7 @@ setup_reflector() {
   echo -e "${BLUE}=== Setting up Reflector ===${RESET}"
   sudo mkdir -p /etc/xdg/reflector/
   sudo tee /etc/xdg/reflector/reflector.conf >/dev/null <<EOF
---latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+--country United States --country Colombia --country Mexico --country Brazil --country Canada --country Chile --country Ecudaro --country Paraguay --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
 EOF
   if sudo systemctl enable reflector.timer; then
     echo -e "${GREEN}Reflector scheduled to update mirrors once a week.${RESET}"
@@ -304,7 +304,7 @@ EOF
   fi
   sudo systemctl start reflector.timer
   echo "Updating mirror list now..."
-  if sudo reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist; then
+  if sudo reflector --country "United States" --country "Colombia" --country "Mexico" --country "Brazil" --country "Canada" --country "Chile" --country "Ecuador" --country "Paraguay" --latest 10 --sort rate --save /etc/pacman.d/mirrorlist; then
     echo -e "${GREEN}Mirror list updated succesfully.${RESET}"
   else
     echo -e "${RED}Failed to update mirror list.${RESET}"
