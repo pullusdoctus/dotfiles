@@ -14,8 +14,8 @@ set $right l
 set $term kitty
 set $menu wofi --show drun
 set $filemanager kitty yazi
-set $browser waterfox
-set $altbrowser firefox
+set $browser firefox
+set $altbrowser waterfox
 set $chromium chromium
 set $musplayer spotify-launcher
 set $torrent qbittorrent
