@@ -14,7 +14,7 @@ GIT_BCKP_DIR="$COMMON_BCKP_DIR/git"
 NVIM_BCKP_DIR="$COMMON_BCKP_DIR/nvim"
 WP_BCKP_DIR="$COMMON_BCKP_DIR/wp"
 SWAY_BCKP_DIR="./sway"
-WAYBAR_BCKP_DIR="$COMMON_BCKP_DIR/waybar"
+SWAYBAR_BCKP_DIR="$SWAY_BCKP_DIR/waybar"
 
 mkdir -p "$COMMON_BCKP_DIR"
 
@@ -78,13 +78,13 @@ else
   echo -e "${YELLOW}No wallpapers directory was found.${RESET}"
 fi
 
-backup_waybar() {
+backup_swaybar() {
   echo "Backing up config files for Waybar..."
   if [ -d $WAYBAR_DIR ]; then
-    if [ -d $WAYBAR_BCKP_DIR ]; then
-      rm -rf "$WAYBAR_BCKP_DIR"
+    if [ -d $SWAYBAR_BCKP_DIR ]; then
+      rm -rf "$SWAYBAR_BCKP_DIR"
     fi
-    if cp -r "$WAYBAR_DIR" "$COMMON_BCKP_DIR"; then
+    if cp -r "$WAYBAR_DIR" "$SWAY_BCKP_DIR"; then
       echo -e "${GREEN}Done!${RESET}"
     else
       echo -e "${RED}Waybar config could not be backed up."
@@ -101,13 +101,14 @@ backup_sway() {
     if [ -d $SWAY_BCKP_DIR ]; then
       rm -rf "$SWAY_BCKP_DIR"
     fi
-    if cp -r "$SWAY_DIR" .; then
+    mkdir "$SWAY_BCKP_DIR"
+    if cp -r "$SWAY_DIR" "$SWAY_BCKP_DIR"; then
       echo -e "${GREEN}Done!${RESET}"
     else
       echo -e "${RED}SwayWM config could not be backed up.${RESET}"
       exit 1
     fi
-    backup_waybar
+    backup_swaybar
   else
     echo -e "${YELLOW}No SwayWM config directory was found.${RESET}"
   fi
