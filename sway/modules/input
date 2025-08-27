@@ -12,8 +12,10 @@ input type:touchpad {
     click_method clickfinger
 }
 
-# TODO: use fcitx
-input type:keyboard {
-  xkb_layout us,us(intl)
-  xkb_options grp:alt_shift_toggle
+input type:pointer {
+  tap enabled
+  natural_scroll disabled
+  dwt enabled
+  middle_emulation enabled
+  accel_profile "flat"
 }
