@@ -1,0 +1,8 @@
+# +-----+
+# | Bar |
+# +-----+
+
+bar {
+  swaybar_command waybar
+  # swaybar_command swaybar
+}

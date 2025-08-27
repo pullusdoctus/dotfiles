@@ -1,0 +1,3 @@
+# Apps
+bindsym $mod+d exec discord
+

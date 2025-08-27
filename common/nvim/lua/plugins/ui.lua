@@ -2,18 +2,19 @@
 return {
   { -- Colorscheme
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'ellisonleao/gruvbox.nvim',
+    'cpplain/flexoki.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
       ---@diagnostic disable-next-line: missing-fields
-      require('gruvbox').setup {
+      require('flexoki').setup {
         styles = {
           comments = { italic = true }, -- Enable italics in comments
         },
+        transparent_mode = true,
       }
       -- Load the colorscheme here.
       vim.o.background = 'dark'
-      vim.cmd.colorscheme 'gruvbox'
+      vim.cmd.colorscheme 'flexoki'
     end,
   },
 }

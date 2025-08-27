@@ -168,7 +168,7 @@ prompt_game_installation() {
 }
 
 install_wm_common() {
-  if paru -S --needed --noconfirm mako inotify-tools brightnessctl grim slurp kitty pipewire wireplumber pavucontrol nm-connection-editor blueberry waybar wofi xorg-xwayland xdg-desktop-portal-gtk xdg-desktop-portal-wlr polkit-kde-agent qt5-wayland qt6-wayland ly; then
+  if paru -S --needed --noconfirm mako inotify-tools brightnessctl grim slurp kitty pipewire wireplumber pavucontrol nm-connection-editor blueberry waybar wofi xorg-xwayland xdg-desktop-portal-gtk xdg-desktop-portal-wlr polkit-kde-agent qt5-wayland qt6-wayland ly vtop waypaper; then
     echo -e "${GREEN}Common packages to every WM installed!${RESET}"
   else
     echo -e "${RED}Failed to install common packages.${RESET}"

@@ -46,7 +46,7 @@
   },
   // UTILS
   "clock": {
-    "format": "  {:%Y/%m/%d |   %I:%M %p}",
+    "format": "  {:%Y/%m/%d |   %H:%M}",
     "tooltip": true,
     "tooltip-format": "<tt>{calendar}</tt>"
   },
@@ -67,7 +67,7 @@
   },
   "pulseaudio": {
     "format": "  {volume}%",
-    "format-muted": " M",
+    "format-muted": "",
     "tooltip-format": "{desc}",
     "on-click": "pavucontrol"
   },
@@ -84,13 +84,13 @@
     "interval": 1,
     "format": " {usage}%",
     "tooltip-format": "{usage}%",
-    "on-click": "kitty htop"
+    "on-click": "kitty vtop"
   },
   "memory": {
     "interval": 1,
     "format": " {}%",
     "tooltip-format": "{used}/{total} GiB",
-    "on-click": "kitty htop"
+    "on-click": "kitty vtop"
   },
   "battery": {
     "interval": 1,

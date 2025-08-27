@@ -1,0 +1,26 @@
+# Basics
+bindsym $mod+c kill
+bindsym $mod+Return exec $term
+bindsym $mod+Space exec $menu
+bindsym $mod+Shift+r reload
+floating_modifier $mod normal
+bindsym $mod+e exec $filemanager
+
+# Exit Sway (log out)
+bindsym $mod+Shift+Escape exec swaymsg exit
+# Lock screen
+bindsym $mod+Escape exec swaylock -f -c 000000
+# TODO: power menu
+
+# Screenshot (grim + grimshot)
+bindsym {
+  # Screenshot current output
+  $mod+s exec grimshot --notify copy output
+  $mod+Alt+s exec grimshot --notify save output
+  # Screenshot current active window
+  $mod+Shift+s exec grimshot --notify copy active
+  $mod+Shift+Alt+s exec grimshot --notify save active
+  # Select and screenshot area
+  $mod+Ctrl+s exec grimshot --notify copy area
+  $mod+Ctrl+Alt+s exec grimshot --notify save area
+}

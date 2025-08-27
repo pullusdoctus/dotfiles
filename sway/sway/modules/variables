@@ -1,0 +1,21 @@
+# +-----------+
+# | Variables |
+# +-----------+
+
+# Keys
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+
+# Apps
+set $term kitty
+set $menu wofi --show drun
+set $filemanager kitty yazi
+
+# Gaps and Borders
+gaps inner 5
+gaps outer 2
+default_border pixel 3
+default_floating_border pixel 2
