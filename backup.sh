@@ -83,10 +83,10 @@ fi
 backup_waybar() {
   echo "Backing up config files for Waybar..."
   if [ -d $WAYBAR_DIR ]; then
-    if [ -d $wa ]; then
+    if [ -d $WAYBAR_BCKP_DIR ]; then
       rm -rf "$WAYBAR_BCKP_DIR"
     fi
-    if cp -r "$WAYBAR_DIR" "$SWAY_BCKP_DIR"; then
+    if cp -r "$WAYBAR_DIR" "$COMMON_BCKP_DIR"; then
       echo -e "${GREEN}Done!${RESET}"
     else
       echo -e "${RED}Waybar config could not be backed up."
@@ -104,7 +104,7 @@ backup_sway() {
       rm -rf "$SWAY_BCKP_DIR"
     fi
     mkdir "$SWAY_BCKP_DIR"
-    if cp -r "$SWAY_DIR" "$SWAY_BCKP_DIR"; then
+    if cp -r "$SWAY_DIR" .; then
       echo -e "${GREEN}Done!${RESET}"
     else
       echo -e "${RED}SwayWM config could not be backed up.${RESET}"
