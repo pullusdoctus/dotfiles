@@ -188,22 +188,34 @@ setup_ly() {
   echo ""
 }
 
+setup_fcitx() {
+  echo -e "${BLUE}=== Setting up fcitx Environment Variables ===${RESET}"
+  if [ export GTK_IM_MODULE=fcitx ] && [ export QT_IM_MODULE=fcitx ] && [ export XMODIFIERS=@im=fcitx ] ; then
+    echo -e "${GREEN}fcitx environment variables set.${RESET}"
+  else
+    echo -e "${RED}Failed to set fcitx environment variables.${RESET}"
+    exit 1
+  fi
+  echo ""
+}
+
 install_sway() {
   echo -e "${BLUE}=== Installing SwayWM === ${RESET}"
-  install_wm_common 
+  install_wm_common
   if paru -S --needed --noconfirm sway swaybg swayidle swaylock sway-contrib; then
     echo -e "${GREEN}SwayWM packages installed succesfully${RESET}"
   else
     echo -e "${RED}Failed to install SwayWM pakcages${RESET}"
     exit 1
   fi
-  setup_ly 
+  setup_ly
+  setup_fcitx
   echo ""
 }
 
 install_hyprland() {
   echo -e "${BLUE}=== Installing Hyprland ===${RESET}"
-  install_wm_common 
+  install_wm_common
   if paru -S --needed --noconfirm hyprland hyprpaper hyprpicker hyprlock uwsm wofi xdg-desktop-portal-hyprland; then
     echo -e "${GREEN}Hyprland packages installed successfully${RESET}"
   else
@@ -290,29 +302,6 @@ setup_snapper() {
   echo ""
 }
 
-setup_reflector() {
-  echo -e "${BLUE}=== Setting up Reflector ===${RESET}"
-  sudo mkdir -p /etc/xdg/reflector/
-  sudo tee /etc/xdg/reflector/reflector.conf >/dev/null <<EOF
---country United States --country Colombia --country Mexico --country Brazil --country Canada --country Chile --country Ecudaro --country Paraguay --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
-EOF
-  if sudo systemctl enable reflector.timer; then
-    echo -e "${GREEN}Reflector scheduled to update mirrors once a week.${RESET}"
-  else
-    echo -e "${RED}Failed to schedule Reflector once a week.${RESET}"
-    exit 1
-  fi
-  sudo systemctl start reflector.timer
-  echo "Updating mirror list now..."
-  if sudo reflector --country "United States" --country "Colombia" --country "Mexico" --country "Brazil" --country "Canada" --country "Chile" --country "Ecuador" --country "Paraguay" --latest 10 --sort rate --save /etc/pacman.d/mirrorlist; then
-    echo -e "${GREEN}Mirror list updated succesfully.${RESET}"
-  else
-    echo -e "${RED}Failed to update mirror list.${RESET}"
-    exit 1
-  fi
-  echo ""
-}
-
 # ===========================================================
 # main:
 echo -e "${BOLD}+-------------------------------------------+${RESET}"
@@ -328,7 +317,6 @@ install_apps
 prompt_game_installation
 prompt_wmde_installation
 setup_snapper
-setup_reflector
 setup_zsh # TODO: rice and move to restore script
 
 if [ -f "./restore.sh" ]; then
