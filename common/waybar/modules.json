@@ -88,13 +88,13 @@
     "interval": 1,
     "format": " {usage}%",
     "tooltip-format": "{usage}%",
-    "on-click": "kitty vtop"
+    "on-click": "kitty btop"
   },
   "memory": {
     "interval": 1,
     "format": " {}%",
     "tooltip-format": "{used}/{total} GiB",
-    "on-click": "kitty vtop"
+    "on-click": "kitty btop"
   },
   "battery": {
     "interval": 1,

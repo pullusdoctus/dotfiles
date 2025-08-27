@@ -1,0 +1,7 @@
+new_tab Yazi
+launch yazi
+
+new_tab Terminal
+launch
+
+focus_tab -m title:Terminal

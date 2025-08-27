@@ -5,6 +5,21 @@ source "./vars.sh"
 
 mkdir -p "$COMMON_BCKP_DIR"
 
+echo -e "${BLUE}Backing up OpenVPN configuration...${RESET}"
+if [ -d $VPN_DIR ]; then
+  if [ -d $VPN_BCKP_DIR ]; then
+    rm -rf "$VPN_BCKP_DIR"
+  fi
+  if cp -r "$VPN_DIR" "$COMMON_BCKP_DIR"; then
+    echo -e "${GREEN}Done!${RESET}"
+  else
+    echo -e "${RED}OpenVPN could not be backed up.${RESET}"
+    exit 1
+  fi
+else
+  echo -e "${YELLOW}No OpenVPN directory found.${RESET}"
+fi
+
 echo -e "${BLUE}Backing up SSH configuration...${RESET}"
 if [ -d $SSH_DIR ]; then
   if [ -f "$SSH_DIR/config" ]; then

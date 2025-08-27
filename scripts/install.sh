@@ -124,6 +124,25 @@ install_apps() {
   echo ""
 }
 
+setup_vpn() {
+  echo -e "${BLUE} === Setting Up OpenVPN + ProtonVPN ===${RESET}"
+  echo "Installing OpenVPN..."
+  if paru -S --needed --noconfirm openvpn openresolv; then
+    echo -e "${GREEN}OpenVPN installed succesfully${RESET}"
+  else
+    echo -e "${RED}Failed to install OpenVPN${RESET}"
+    exit 1
+  fi
+  echo "Downloading DNS update script..."
+  if sudo wget "https://raw.githubusercontent.com/ProtonVPN/scripts/master/update-resolv-conf.sh" -O "/etc/openvpn/update-resolv-conf"; then
+    sudo chmod +x "/etc/openvpn/update-resolv-conf"
+    echo -e "${GREEN}Script downloaded succesfully${RESET}"
+  else
+    echo -e "${RED}Failed to download script${RESET}"
+    exit 1
+  fi
+}
+
 setup_gamemode() {
   echo -e "${MAGENTA}TODO: setup gamemode${RESET}"
   echo ""
@@ -168,7 +187,7 @@ prompt_game_installation() {
 }
 
 install_wm_common() {
-  if paru -S --needed --noconfirm mako inotify-tools brightnessctl grim slurp kitty pipewire wireplumber pavucontrol nm-connection-editor blueberry waybar wofi xorg-xwayland xdg-desktop-portal-gtk xdg-desktop-portal-wlr polkit-kde-agent qt5-wayland qt6-wayland ly vtop waypaper; then
+  if paru -S --needed --noconfirm mako inotify-tools brightnessctl grim slurp kitty pipewire wireplumber pavucontrol nm-connection-editor blueberry waybar wofi xorg-xwayland xdg-desktop-portal-gtk xdg-desktop-portal-wlr polkit-kde-agent qt5-wayland qt6-wayland ly btop waypaper; then
     echo -e "${GREEN}Common packages to every WM installed!${RESET}"
   else
     echo -e "${RED}Failed to install common packages.${RESET}"
@@ -314,6 +333,7 @@ enable_multilib
 install_paru
 install_essentials
 install_apps
+setup_vpn
 prompt_game_installation
 prompt_wmde_installation
 setup_snapper

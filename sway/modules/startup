@@ -9,6 +9,18 @@ exec --no-startup-id fcitx5 -d
 exec "/usr/lib/polkit-kde-authentication-agent-1"
 
 # +------+
+# | Apps |
+# +------+
+
+# Workspace 1
+exec swaymsg "workspace 1; exec $term"
+# Workspace 10
+exec swaymsg "workspace 10; exec $musplayer"
+# Minimized
+for_window [app_id="$torrent"] floating enable, move scratchpad
+exec swaymsg "exec $torrent"
+
+# +------+
 # | Idle |
 # +------+
 # 300 = 5 min

@@ -1,4 +1,5 @@
 CONFIG_DIR="$HOME/.config"
+VPN_DIR="$HOME/.config/openvpn/"
 SSH_DIR="$HOME/.ssh"
 NVIM_DIR="$CONFIG_DIR/nvim"
 DATA_DIR="$HOME/data"
@@ -9,6 +10,7 @@ WAYBAR_DIR="$HOME/.config/waybar"
 SWAY_DIR="$HOME/.config/sway"
 
 COMMON_BCKP_DIR="../common"
+VPN_BCKP_DIR="$COMMON_BCKP_DIR/openvpn"
 SSH_BCKP_DIR="$COMMON_BCKP_DIR/ssh"
 GIT_BCKP_DIR="$COMMON_BCKP_DIR/git"
 NVIM_BCKP_DIR="$COMMON_BCKP_DIR/nvim"

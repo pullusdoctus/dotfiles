@@ -32,6 +32,21 @@ while true; do
   fi
 done
 
+echo -e "${BLUE}Restoring OpenVPN configuration...${RESET}"
+if [ -d $VPN_BCKP_DIR ]; then
+  if [ -d $VPN_DIR ]; then
+    rm -rf "$VPN_DIR"
+  fi
+  if cp -r "$VPN_BCKP_DIR" "$VPN_DIR"; then
+    echo -e "${GREEN}Done!${RESET}"
+  else
+    echo -e "${RED}OpenVPN could not be restored.${RESET}"
+    exit 1
+  fi
+else
+  echo -e "${YELLOW}No OpenVPN backup found.${RESET}"
+fi
+
 echo -e "${BLUE}Restoring SSH configuration...${RESET}"
 if [ -d "$SSH_BCKP_DIR" ] && [ -f "$SSH_BCKP_DIR/config" ]; then
   mkdir -p "$SSH_DIR"
