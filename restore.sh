@@ -8,12 +8,16 @@ NVIM_DIR="$CONFIG_DIR/nvim"
 DATA_DIR="$HOME/data"
 IMG_DIR="$DATA_DIR/img"
 WP_DIR="$IMG_DIR/wp"
+SWAY_DIR="$HOME/.config/sway"
+WAYBAR_DIR="$HOME/.config/waybar"
 
 COMMON_BCKP_DIR="./common"
 SSH_BCKP_DIR="$COMMON_BCKP_DIR/ssh"
 GIT_BCKP_DIR="$COMMON_BCKP_DIR/git"
 NVIM_BCKP_DIR="$COMMON_BCKP_DIR/nvim"
 WP_BCKP_DIR="$COMMON_BCKP_DIR/wp"
+SWAY_BCKP_DIR="./sway/"
+SWAYBAR_BCKP_DIR="$SWAY_BCKP_DIR/waybar"
 
 while true; do
   read -rp "Do you want to generate new SSH keys? (y/n): " ANSWER
@@ -103,5 +107,52 @@ else
   echo -e "${YELLOW}No wallpapers backup found.${RESET}"
 fi
 
+restore_swaybar() {
+  echo -e "${BLUE}Restoring Waybar config...${RESET}"
+  if [ -d "$SWAYBAR_BCKP_DIR" ]; then
+    if [ -d "$WAYBAR_DIR" ]; then
+      rm -rf "$WAYBAR_DIR"
+    fi
+    if cp -r "$SWAYBAR_BCKP_DIR" "$WAYBAR_DIR"; then
+      echo -e "${GREEN}Done!${RESET}"
+    else
+      echo -e "${RED}Could not restore Waybar config.${RESET}"
+      exit 1
+    fi
+  else
+    echo -e "${YELLOW}No Waybar backup found.${RESET}"
+  fi
+}
+
+restore_sway() {
+  echo -e "${BLUE}Restoring SwayWM config...${RESET}"
+  if [ -d "$SWAY_BCKP_DIR" ]; then
+    if [ -d "$SWAY_DIR" ]; then
+      rm -rf "$SWAY_DIR"
+    fi
+    if cp -r "$SWAY_BCKP_DIR/sway" "$SWAY_DIR"; then
+      echo -e "${GREEN}Done!${RESET}"
+    else
+      echo -e "${RED}Could not restore SwayWM config.${RESET}"
+      exit 1
+    fi
+    restore_swaybar
+  else
+    echo -e "${YELLOW}No SwayWM backup found.${RESET}"
+  fi
+}
+
+echo -e "${BLUE}Restoring DE/WM config...${RESET}"
+WM=$(fastfetch | grep -i "WM:" | awk '{print $2}')
+case $WM in
+  Sway)
+    restore_sway
+    ;;
+  # TODO: Hyprland
+  # TODO: KDE Plasma
+  *)
+    echo -e "${YELLOW}Unknown DE/WM detected: $WM${RESET}"
+    ;;
+esac
 echo -e "${GREEN}Restoration finished!${RESET}"
 echo -e "${BOLD}Please reboot your system to avoid issues.${RESET}"
