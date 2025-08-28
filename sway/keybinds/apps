@@ -7,9 +7,11 @@
 bindsym $mod+b workspace 2; exec $browser
 bindsym $mod+n workspace 2; exec $altbrowser
 bindsym $mod+m workspace 2; exec $chromium
-# Workspace 10
-bindsym $mod+v workspace 10; exec $musplayer
 # Workspace 3
 bindsym $mod+z workspace 3; exec zapzap
 bindsym $mod+x workspace 3; exec Telegram
 bindsym $mod+d workspace 3; exec discord
+# Workspace 4
+bindsym $mod+g workspace 4; exec steam
+# Workspace 10
+bindsym $mod+v workspace 10; exec $musplayer

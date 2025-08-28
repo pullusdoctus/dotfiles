@@ -2,14 +2,3 @@
 # | Output (Monitors) |
 # +-------------------+
 # swaymsg -t get_outputs
-
-output eDP-1 pos 0 0
-output HDMI-A-1 pos 1920 0
-
-# Main Monitor
-workspace 1 output HDMI-A-1
-
-# Laptop Screen
-workspace 2 output eDP-1
-workspace 3 output eDP-1
-workspace 10 output eDP-1
