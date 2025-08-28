@@ -19,19 +19,3 @@ exec swaymsg "workspace 10; exec $musplayer"
 # Minimized
 for_window [app_id="$torrent"] floating enable, move scratchpad
 exec swaymsg "exec $torrent"
-
-# +------+
-# | Idle |
-# +------+
-# 300 = 5 min
-# 600 = 10 min
-# 900 = 15 min
-# 1200 = 20 min
-# 1800 = 30 min
-# 2400 = 40 min
-# 3000 = 50 min
-# 3600 = 60 min
-exec swayidle -w \
-     timeout 300 'swaylock -f -c 000000' \
-     timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-     before-sleep 'swaylock -f -c 000000'
