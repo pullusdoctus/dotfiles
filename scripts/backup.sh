@@ -95,6 +95,21 @@ else
   echo -e "${YELLOW}No Kitty config found.${RESET}"
 fi
 
+echo -e "${BLUE}Backing up Fastfetch config...${RESET}"
+if [ -d "$FF_DIR" ]; then
+  if [ -d "$FF_BCKP_DIR" ]; then
+    rm -rf "$FF_BCKP_DIR"
+  fi
+  if cp -r "$FF_DIR" "$COMMON_BCKP_DIR"; then
+    echo -e "${GREEN}Done!${RESET}"
+  else
+    echo -e "${RED}Could not back up Fastfetch config.${RESET}"
+    exit 1
+  fi
+else
+  echo -e "${YELLOW}No Fastfetch config found.${RESET}"
+fi
+
 backup_waybar() {
   echo "Backing up config files for Waybar..."
   if [ -d $WAYBAR_DIR ]; then

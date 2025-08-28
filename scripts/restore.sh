@@ -121,6 +121,21 @@ else
   echo -e "${YELLOW}No Kitty backup found.${RESET}"
 fi
 
+echo -e "${BLUE}Restoring Fastfetch config...${RESET}"
+if [ -d "$FF_BCKP_DIR" ]; then
+  if [ -d "$FF_DIR" ]; then
+    rm -rf "$FF_DIR"
+  fi
+  if cp -r "$FF_BCKP_DIR" "$FF_DIR"; then
+    echo -e "${GREEN}Done!${RESET}"
+  else
+    echo -e "${RED}Could not restore Fastfetch config.${RESET}"
+    exit 1
+  fi
+else
+  echo -e "${YELLOW}No Fastfetch backup found.${RESET}"
+fi
+
 restore_waybar() {
   echo -e "${BLUE}Restoring Waybar config...${RESET}"
   if [ -d "$WAYBAR_BCKP_DIR" ]; then
