@@ -102,8 +102,8 @@ install_paru() {
 
 install_essentials() {
   echo -e "${BLUE}=== Installing Essential Packages ===${RESET}"
-  echo "Installing neovim, git, ssh, zsh, 7zip, dolphin, yazi, ark, C/C++, ASM, Python & Lua libraries; manuals, fastfetch, wl-clipboard, fonts, fcitx5, snapper, reflector..."
-  if paru -S --needed --noconfirm neovim git openssh zsh p7zip dolphin yazi ark base-devel clang gdb cmake lldb valgrind nasm python python-pip pyenv python-poetry stylua luarocks unzip wget go ruby php composer npm julia tree-sitter python-neovim fd man-db man-pages fastfetch wl-clipboard nerd-fonts ttf-jetbrains-mono ttf-hack otf-font-awesome ttf-arimo-nerd noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-ms-win11-auto fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-im fcitx5-mozc fcitx5-rime fcitx5-hangul fcitx5-unikey snapper reflector; then
+  echo "Installing neovim, git, ssh, zsh, 7zip, dolphin, yazi, ark, C/C++, ASM, Python & Lua libraries; manuals, fastfetch, wl-clipboard, fonts, fcitx5, snapper, inetutils..."
+  if paru -S --needed --noconfirm neovim git openssh zsh p7zip dolphin yazi ark base-devel clang gdb cmake lldb valgrind nasm python python-pip pyenv python-poetry stylua luarocks unzip wget go ruby php composer npm julia tree-sitter python-neovim fd man-db man-pages fastfetch wl-clipboard nerd-fonts ttf-jetbrains-mono ttf-hack otf-font-awesome ttf-arimo-nerd noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-ms-win11-auto fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-im fcitx5-mozc fcitx5-rime fcitx5-hangul fcitx5-unikey snapper inetutils; then
     echo -e "${GREEN}Essential packages installed successfully${RESET}"
   else
     echo -e "${RED}Failed to install essential packages${RESET}"

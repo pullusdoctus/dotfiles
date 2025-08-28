@@ -19,3 +19,7 @@ input type:pointer {
   middle_emulation enabled
   accel_profile "flat"
 }
+
+input type:keyboard {
+  xkb_numlock on
+}
