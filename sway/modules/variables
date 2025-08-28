@@ -15,7 +15,7 @@ set $term kitty
 set $menu wofi --show drun
 set $filemanager kitty yazi
 set $browser firefox
-set $altbrowser firefox
+set $altbrowser waterfox
 set $chromium chromium
 set $musplayer spotify-launcher
 set $torrent qbittorrent
